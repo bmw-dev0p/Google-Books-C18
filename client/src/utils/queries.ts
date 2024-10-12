@@ -1,59 +1,66 @@
 import { gql } from '@apollo/client';
 
+// Query to get user information along with their saved books
 export const QUERY_USER = gql`
   query user($username: String!) {
     user(username: $username) {
       _id
       username
       email
-      thoughts {
+      books {
         _id
-        thoughtText
-        createdAt
+        title
+        authors
+        description
+        image
+        link
       }
     }
   }
 `;
 
-export const QUERY_THOUGHTS = gql`
-  query getThoughts {
-    thoughts {
+// Query to get all books
+export const QUERY_BOOKS = gql`
+  query getBooks {
+    books {
       _id
-      thoughtText
-      thoughtAuthor
-      createdAt
+      title
+      authors
+      description
+      image
+      link
     }
   }
 `;
 
-export const QUERY_SINGLE_THOUGHT = gql`
-  query getSingleThought($thoughtId: ID!) {
-    thought(thoughtId: $thoughtId) {
+// Query to get a single book by its ID
+export const QUERY_SINGLE_BOOK = gql`
+  query getSingleBook($bookId: ID!) {
+    book(bookId: $bookId) {
       _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-      }
+      title
+      authors
+      description
+      image
+      link
     }
   }
 `;
 
+// Query to get the authenticated user's information along with their saved books
 export const QUERY_ME = gql`
   query me {
     me {
       _id
       username
       email
-      thoughts {
+      books {
         _id
-        thoughtText
-        thoughtAuthor
-        createdAt
+        title
+        authors
+        description
+        image
+        link
       }
     }
   }
