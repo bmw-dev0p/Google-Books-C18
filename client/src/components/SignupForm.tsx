@@ -45,13 +45,16 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
     });
     console.log('Response from addUser mutation:', data);
 
+    // enhanced login check
     if (data && data.addUser && data.addUser.token) {
       Auth.login(data.addUser.token);
+      console.log('Sign up successful');
     } else {
       console.error('Unexpected response structure:', data);
       setShowAlert(true);
     }
 
+    // enhanced error handling
   } catch (err) {
     if (err instanceof Error) {
       console.error('Error details:', err.message);
@@ -65,6 +68,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
     setShowAlert(true);
   }
   
+  // reset form state
     setUserFormData({
       username: '',
       email: '',

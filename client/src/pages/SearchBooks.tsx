@@ -38,22 +38,29 @@ const SearchBooks = () => {
   });
 
   // create method to search for books and set state on form submit
+  // Function to handle form submission for book search
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    // Prevent default form submission behavior
     event.preventDefault();
 
+    // If search input is empty, return early
     if (!searchInput) {
       return false;
     }
 
     try {
+      // Call the Google Books API with the search input
       const response = await searchGoogleBooks(searchInput);
 
+      // If the response is not ok, throw an error
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
+      // Parse the JSON response
       const { items } = await response.json();
 
+      // Map the returned items to our Book model
       const bookData = items.map((book: GoogleAPIBook) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
@@ -62,17 +69,23 @@ const SearchBooks = () => {
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
 
+      // Update state with the searched books
       setSearchedBooks(bookData);
+      // Clear the search input
       setSearchInput('');
     } catch (err) {
+      // Log any errors that occur during the process
       console.error(err);
     }
   };
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId: string) => {
+
     // find the book in `searchedBooks` state by the matching id
     const bookToSave: Book = searchedBooks.find((book) => book.bookId === bookId)!;
+
+    console.log('Book to save:', bookToSave); // log
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -82,7 +95,14 @@ const SearchBooks = () => {
     }
 
     try {
-      const {data} = await saveBook({variables: {input: bookToSave}});
+      // apollo mutation to save book
+      const { data } = await saveBook({
+        variables: {
+          input: bookToSave // Pass the bookToSave input
+        }
+      });
+
+      console.log('Mutation response:', data); // log
 
       if (!data) {
         throw new Error('something went wrong!');
@@ -91,7 +111,7 @@ const SearchBooks = () => {
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.error(err);
+      console.error('Error details:', err); 
     }
   };
 
