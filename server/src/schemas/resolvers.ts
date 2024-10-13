@@ -25,7 +25,8 @@ interface BookArgs {
 
 interface AddBookArgs {
   input:{
-    authors: string;
+    bookId: string;
+    authors: string[];
     description: string;
     title: string;
     image: string;
@@ -78,7 +79,8 @@ const resolvers = {
 
     saveBook: async (_parent: any, { input }: AddBookArgs, context: any) => {
       if (context.user) {
-        const book = await Book.create({ ...input });
+        console.log('Received book data:', input); // log
+        const book = await Book.create(input);  // Create book with all input data, including bookId
 
         await User.findOneAndUpdate(
           { _id: context.user._id },
