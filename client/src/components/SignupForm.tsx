@@ -4,7 +4,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 
 // import { createUser } from '../utils/API'; // no longer needed
 import Auth from '../utils/auth';
-import type { User } from '../models/User';
+// import  User from '../../../server/src/models/User.js'; // change to import the apollo model? - not needed
 
 // imported useMutation hook
 import { useMutation } from '@apollo/client';
@@ -14,7 +14,7 @@ import { ADD_USER } from '../utils/mutations';
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const SignupForm = ({}: { handleModalClose: () => void }) => {
   // set initial form state
-  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
+  const [userFormData, setUserFormData] = useState({ username: '', email: '', password: ''}); // remove savedBooks
   // set state for form validation
   const [validated] = useState(false);
   // set state for alert
@@ -28,32 +28,47 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   };
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  // ... existing code ...
 
-    try {
-      const { data } = await addUser({
-        variables: { input: { ...userFormData } },
-      });
+  try {
+    console.log('Attempting to add user with data:', userFormData);
+    const { data } = await addUser({
+      variables: { 
+        input: {
+          username: userFormData.username,
+          email: userFormData.email,
+          password: userFormData.password
+        } 
+      },
+    });
+    console.log('Response from addUser mutation:', data);
 
+    if (data && data.addUser && data.addUser.token) {
       Auth.login(data.addUser.token);
-
-    } catch (err) {
-      console.error(err);
+    } else {
+      console.error('Unexpected response structure:', data);
       setShowAlert(true);
     }
 
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error('Error details:', err.message);
+      if ('graphQLErrors' in err) {
+        console.error('GraphQL Errors:', err.graphQLErrors);
+      }
+      if ('networkError' in err && err.networkError) {
+        console.error('Network error details:', err.networkError);
+      }
+    }
+    setShowAlert(true);
+  }
+  
     setUserFormData({
       username: '',
       email: '',
       password: '',
-      savedBooks: [],
     });
   };
 
@@ -111,6 +126,7 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
           Submit
         </Button>
       </Form>
+
     </>
   );
 };
