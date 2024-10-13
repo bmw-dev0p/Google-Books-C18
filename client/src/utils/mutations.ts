@@ -17,11 +17,11 @@ export const LOGIN_USER = gql`
 export const ADD_USER = gql`
   mutation addUser($input: UserInput!) {
     addUser(input: $input) {
-      token
       user {
         _id
         username
       }
+      token
     }
   }
 `;

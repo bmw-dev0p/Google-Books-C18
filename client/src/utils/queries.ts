@@ -48,7 +48,7 @@ export const QUERY_SINGLE_BOOK = gql`
 `;
 
 // Query to get the authenticated user's information along with their saved books
-export const QUERY_ME = gql`
+export const GET_ME = gql`
   query me {
     me {
       _id
