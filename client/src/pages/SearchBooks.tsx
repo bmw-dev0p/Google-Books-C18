@@ -90,7 +90,7 @@ const SearchBooks = () => {
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-    if (!token) {
+    if (!token || !bookToSave) {
       return false;
     }
 
@@ -111,7 +111,7 @@ const SearchBooks = () => {
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.error('Error details:', err); 
+      console.error('Error saving book:', err);
     }
   };
 

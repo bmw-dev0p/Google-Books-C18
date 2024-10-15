@@ -30,8 +30,6 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
   event.preventDefault();
 
-  // ... existing code ...
-
   try {
     console.log('Attempting to add user with data:', userFormData);
     const { data } = await addUser({

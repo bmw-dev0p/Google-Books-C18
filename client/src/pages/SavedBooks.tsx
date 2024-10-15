@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 
 // use the useQuery() hook to execute the GET_ME query on load and save it to a variable named userData.
-import { GET_ME, QUERY_USER } from '../utils/queries';  
+import { GET_ME } from '../utils/queries';  
 // use the useMutation() hook to execute the REMOVE_BOOK mutation in the handleDeleteBook() function instead of the deleteBook() function that's imported from the API file 
 import { REMOVE_BOOK } from '../utils/mutations'; 
 import { useMutation, useQuery } from '@apollo/client';
@@ -16,19 +16,19 @@ import { useParams } from 'react-router-dom';
 const SavedBooks: React.FC = () => {
   const { username: userParam } = useParams();
 
-  const { loading, data } = useQuery(userParam ? QUERY_USER : GET_ME, {
-    variables: { username: userParam },
-  });
+  const { loading, error, data } = useQuery(GET_ME);
 
   const [removeBook] = useMutation(REMOVE_BOOK, {
     refetchQueries: [
-      { query: GET_ME },
-      { query: QUERY_USER, variables: { username: userParam } }
+      { query: GET_ME, variables: { username: userParam } },
     ]
   });
 
+  console.log('Query data:', data);
+
   const userData: User = data?.me || data?.user || {};
-  console.log(userData);
+  console.log('User data:', userData);
+  console.log('Saved books:', userData.savedBooks);
   
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
@@ -54,6 +54,9 @@ const SavedBooks: React.FC = () => {
   // if data isn't here yet, say so
   if (loading) {
     return <h2>LOADING...</h2>;
+  }
+  if (error) {
+    return <h2>Error: {error.message}</h2>;
   }
 
   return (
