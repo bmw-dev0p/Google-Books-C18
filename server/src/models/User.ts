@@ -32,7 +32,6 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       required: true,
     },
-    // changed to array of Book model
     savedBooks: [{
       type: Schema.Types.ObjectId,
       ref: 'Book',
