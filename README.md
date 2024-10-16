@@ -30,12 +30,12 @@ For live service of this app, navigate to:
   <br/>Step 8: Note: This program may require your own mongodb live service.
 
 ## Usage:
-  Insomnia software displaying the API get route for All Users
-  <br/>![signUp](https://github.com/bmw-dev0p/Social-Network-C17/blob/main/src/assets/readme1.jpg?raw=true)
-  <br/> Insomnia software displaying the API post route for adding a Friend to User
-  <br/>![SearchBooks](https://github.com/bmw-dev0p/Social-Network-C17/blob/main/src/assets/readme2.jpg?raw=true)
-  <br/> Insomnia software displaying the API post route for adding a Reaction to Thought
-  <br/>![SavedBooks](https://github.com/bmw-dev0p/Social-Network-C17/blob/main/src/assets/readme3.jpg?raw=true)
+  Landing page and User Sign up / Log in
+  <br/>![signUp](https://github.com/bmw-dev0p/Google-Books-C18/blob/main/client/src/assets/readme1.jpg?raw=true)
+  <br/> Book search featuring Google Books API
+  <br/>![SearchBooks](https://github.com/bmw-dev0p/Google-Books-C18/blob/main/client/src/assets/readme2.jpg?raw=true)
+  <br/> User's Saved Books
+  <br/>![SavedBooks](https://github.com/bmw-dev0p/Google-Books-C18/blob/main/client/src/assets/readme3.jpg?raw=true)
 
 ## Features:
 ### Coding Language(s): 
