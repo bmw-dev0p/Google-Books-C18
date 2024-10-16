@@ -15,9 +15,9 @@ interface LoginUserArgs {
   password: string;
 }
 
-interface UserArgs {
-  username: string;
-}
+// interface UserArgs {
+//   username: string;
+// }
 
 interface BookArgs {
   bookId: string;
@@ -36,18 +36,21 @@ interface AddBookArgs {
 
 const resolvers = {
   Query: {
-    users: async () => {
-      return User.find().populate('books');
-    },
-    user: async (_parent: any, { username }: UserArgs) => {
-      return User.findOne({ username }).populate('books');
-    },
-    books: async () => {
-      return await Book.find().sort({ createdAt: -1 });
-    },
-    book: async (_parent: any, { bookId }: BookArgs) => {
-      return await Book.findOne({ _id: bookId });
-    },
+    // Future development
+    // ----------------------------------------------------------
+    // users: async () => {
+    //   return User.find().populate('books');
+    // },
+    // user: async (_parent: any, { username }: UserArgs) => {
+    //   return User.findOne({ username }).populate('books');
+    // },
+    // books: async () => {
+    //   return await Book.find().sort({ createdAt: -1 });
+    // },
+    // book: async (_parent: any, { bookId }: BookArgs) => {
+    //   return await Book.findOne({ _id: bookId });
+    // },
+    // ----------------------------------------------------------
     me: async (_parent: any, _args: any, context: any) => {
       // console.log('Context:', context);
       console.log('User:', context.user);
