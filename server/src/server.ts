@@ -7,6 +7,14 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 
+// render fix ?
+import { fileURLToPath } from 'url';
+import { dirname } from 'path'
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// End render fix ?
+
 // Create a new Apollo Server instance with our schema
 const server = new ApolloServer({
   typeDefs,
@@ -39,11 +47,11 @@ const startApolloServer = async () => {
 
   // Serve static files in production
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.use(express.static(path.join(__dirname, '../../client/dist')));
 
     // Serve the React app for any unmatched routes
     app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
     });
   }
 
